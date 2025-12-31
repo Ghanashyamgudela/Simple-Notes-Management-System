@@ -1,0 +1,241 @@
+
+    /* ===== THEME ===== */
+    :root {
+      --accent: #ffcc00;
+      --bg-overlay: rgba(60, 45, 90, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      --muted: #e5e5e5;
+      --input-bg: rgba(255, 255, 255, 0.15);
+      --border-color: rgba(255, 255, 255, 0.3);
+      font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url('https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg')
+        no-repeat center center / cover;
+      color: var(--text);
+    }
+
+    /* ===== CARD ===== */
+    .card {
+      width: 90%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px 36px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        animation: fadeIn 0.5s ease-in-out;
+
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    p.lead {
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ===== FORM ===== */
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+      display: block;
+    }
+       input[type="password"], input[type="text"]{
+        width: 90%;
+      padding: 12px;
+      border-radius: 8px;
+      background: none;
+      border: none;
+
+      
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+       }
+
+   
+    input[type="email"]
+  {
+      width: 90%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+    }
+
+    /* ===== BUTTONS ===== */
+    button[type="submit"] {
+      background: var(--accent);
+      color: #333;
+      border: none;
+      padding: 12px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button[type="submit"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(255, 204, 0, 0.4);
+    }
+
+    .toggle-btn {
+      background: transparent;
+      border: none;
+      margin-right: 15px;
+      color: var(--accent);
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ===== PASSWORD STRENGTH ===== */
+    .strength {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .strength > i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #e540d4, #2357b9, #3f8f29);
+      transition: width 0.18s linear;
+    }
+
+    .hint, .error, .small {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .error {
+      color: #ff6b6b;
+    }
+
+    .meta {
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 500px) {
+      .card {
+        margin: 0 16px;
+        padding: 24px;
+      }
+    }
+/* ==================================================
+   FLASH MESSAGE STYLES (Matches Register Page Theme)
+================================================== */
+
+.flash-container {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  padding: 0 20px;
+}
+
+.flash-message {
+  padding: 12px 20px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  max-width: 500px;
+  width: fit-content;
+
+  animation: slideDown 0.4s ease, fadeOut 0.5s ease 4s forwards;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Auto Fade Out */
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+
+/* SUCCESS */
+.flash-message.success {
+  background: rgba(34, 197, 94, 0.2);
+  border-left: 5px solid #22c55e;
+}
+
+/* Prevent flash messages from blocking navbar interactions */
+.flash-container { pointer-events: none; z-index: 999; }
+.flash-container .flash-message { pointer-events: auto; }
+
+/* ERROR */
+.flash-message.error {
+  background: rgba(239, 68, 68, 0.2);
+  border-left: 5px solid #ef4444;
+}
+
+/* WARNING */
+.flash-message.warning {
+  background: rgba(255, 204, 0, 0.2);
+  border-left: 5px solid var(--accent);
+}
+
+/* INFO */
+.flash-message.info {
+  background: rgba(59, 130, 246, 0.2);
+  border-left: 5px solid #3b82f6;
+}

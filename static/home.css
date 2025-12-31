@@ -1,0 +1,71 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  
+       background: linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url('https://images.pexels.com/photos/4865732/pexels-photo-4865732.jpeg')
+      ;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "Poppins", sans-serif;
+}
+
+.overlay {
+
+      
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  text-align: center;
+  color: white;
+}
+
+.container h1 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 25px;
+  background-color: #ffcc00;
+  color: #222;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #ffdb4d;
+  transform: scale(1.05);
+}
+:root {
+  --accent: #ffcc00;
+  --bg-overlay: rgba(60, 45, 90, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --muted: #e5e5e5;
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(110, 103, 103, 0.3);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}

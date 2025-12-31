@@ -1,0 +1,202 @@
+/* ===== THEME ===== */
+:root {
+  --accent: #ffcc00;
+  --bg-overlay: rgba(60, 45, 90, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --muted: #e5e5e5;
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(255, 255, 255, 0.3);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ===== BACKGROUND ===== */
+html, body {
+   height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url('https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg')
+        no-repeat center center / cover;
+      color: var(--text);
+      
+}
+
+/* ===== CARD ===== */
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px 36px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  text-align: center;
+  display: block;
+  align-self: center;
+  justify-self: center;
+  margin-top: 100px;
+}
+
+/* ===== HEADINGS ===== */
+h1 {
+  margin-top: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+p.lead {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+/* ===== OTP INPUT FIELDS ===== */
+.otp-fields {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+input.otp {
+  width: 50px;
+  height: 56px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+input.otp:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+}
+
+/* ===== BUTTON ===== */
+button[type="submit"] {
+  width: 100%;
+  background: var(--accent);
+  color: #333;
+  border: none;
+  padding: 12px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(255, 204, 0, 0.4);
+}
+
+/* ===== META LINKS ===== */
+.meta {
+  margin-top: 16px;
+  font-size: 13px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===== ERROR MESSAGE ===== */
+.error {
+  color: #ff6b6b;
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+  .card {
+    margin: 0 16px;
+    padding: 24px;
+  }
+
+  input.otp {
+    width: 42px;
+    height: 50px;
+    font-size: 18px;
+  }
+}
+/* ==================================================
+   FLASH MESSAGE STYLES (Matches Register Page Theme)
+================================================== */
+
+.flash-container {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  padding: 0 20px;
+}
+
+.flash-message {
+  padding: 12px 20px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  max-width: 500px;
+  width: fit-content;
+
+  animation: slideDown 0.4s ease, fadeOut 0.5s ease 4s forwards;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+}
+
+/* Slide Down Animation */
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Auto Fade Out */
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* SUCCESS */
+.flash-message.success {
+  background: rgba(34, 197, 94, 0.2);
+  border-left: 5px solid #22c55e;
+}
+
+/* ERROR */
+.flash-message.error {
+  background: rgba(239, 68, 68, 0.2);
+  border-left: 5px solid #ef4444;
+}
+
+/* WARNING */
+.flash-message.warning {
+  background: rgba(255, 204, 0, 0.2);
+  border-left: 5px solid var(--accent);
+}
+
+/* INFO */
+.flash-message.info {
+  background: rgba(59, 130, 246, 0.2);
+  border-left: 5px solid #3b82f6;
+}
+
+/* Prevent flash messages from blocking navbar interactions */
+.flash-container { pointer-events: none; z-index: 999; }
+.flash-container .flash-message { pointer-events: auto; }

@@ -1,0 +1,394 @@
+/* ===== THEME ===== */
+:root {
+  --accent: #ffcc00;
+  --bg-overlay: rgba(60, 45, 90, 0.7);
+  --card-bg: rgba(255, 255, 255, 0.1);
+  --text: #ffffff;
+  --muted: #e5e5e5;
+  --input-bg: rgba(255, 255, 255, 0.15);
+  --border-color: rgba(255, 255, 255, 0.3);
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.logo a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  vertical-align: 5px;
+  margin-left: 322px;
+
+}
+
+.dropdown-content a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--accent);
+}
+
+.username {
+  font-weight: 600;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  background: linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+    url(' https://images.pexels.com/photos/16689057/pexels-photo-16689057.jpeg') no-repeat center center / cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+
+
+  flex-direction: column;
+
+
+  nav {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* ===== MENU BUTTON (mobile) ===== */
+  .menu-btn {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 36px;
+    padding: 6px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .menu-btn span {
+    display: block;
+    height: 3px;
+    background: white;
+    border-radius: 2px;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .profile-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    object-fit: cover;
+  }
+
+  .logo {
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 40%;
+
+
+    text-overflow: ellipsis;
+    align-self: center;
+  }
+
+  /* allow flex items to shrink so the logo won't overlap */
+  .nav-left,
+  .nav-links {
+    min-width: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+  }
+
+  /* ===== DROPDOWN ===== */
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-btn {
+    background: inherit;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .dropdown-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    ;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    color: white;
+    background: inherit;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    min-width: 160px;
+    background-color: #635067;
+
+    z-index: 20;
+    backdrop-filter: blur(2px);
+  }
+
+  .dropdown-content a {
+    display: block;
+    padding: 10px 14px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.2s ease;
+  }
+
+  .dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  /* allow opening dropdown via JS on touch/click */
+  .dropdown.open .dropdown-content {
+    display: block;
+  }
+
+  /* ===== SEARCH BOX ===== */
+  .search-box input {
+    background: var(--input-bg);
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text);
+    outline: none;
+    font-size: 14px;
+    width: 180px;
+    transition: all 0.3s ease;
+  }
+
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.6);
+    width: 240px;
+  }
+
+  /* ===== LOGOUT BUTTON ===== */
+  .logout-btn {
+    border: 2px solid white;
+    background: inherit;
+    color: white;
+    border-radius: 5px;
+    font-weight: 600;
+    padding: 8px 18px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .logout-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 204, 0, 0.4);
+  }
+
+  /* ===== MAIN CONTENT ===== */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    margin-left: 35px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 600px;
+    background: var(--card-bg);
+    border: 2px solid white;
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  h1 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+  }
+
+  p {
+    color: black;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+
+    nav {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .logo a {
+      margin-left: 0;
+    }
+
+    .menu-btn {
+      display: flex;
+      position: absolute;
+      right: 18px;
+      top: 52px;
+      z-index: 30;
+    }
+
+    .logo {
+      position: static;
+      transform: none;
+
+    }
+
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 18px;
+
+      border-radius: 10px;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0.4);
+    }
+
+    /* when menu is opened (toggled via JS) */
+    nav.open .nav-links {
+      display: flex;
+    }
+
+    .search-box input {
+      width: 100%;
+    }
+
+    .card {
+      margin: 0 1px;
+      padding: 29px;
+    }
+  }
+
+
+  /* Hide the default file input */
+  #file-upload {
+    display: none;
+  }
+
+  /* Upload box */
+  .file-upload-box {
+    width: 100%;
+
+    height: 160px;
+    border: 2px dashed #50cc7f;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: inherit;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  /* Hover effect */
+  .file-upload-box:hover {
+    background-color: inherit;
+    border-color: #3cb371;
+  }
+
+  /* Upload text */
+  .upload-text {
+    color: #2d6a4f;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Selected file name */
+  .file-name {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+  }
+
+  /* Submit button */
+  .upload-btn {
+    margin-top: 15px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 8px;
+    background-color: #50cc7f;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .upload-btn:hover {
+    background-color: #3cb371;
+  }
+
+  .flash-container {
+    position: fixed !important;
+    top: 105px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .flash-message {
+    padding: 12px 20px;
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    max-width: 500px;
+    width: fit-content;
+    animation: slideDown 0.4s ease, fadeOut 0.5s ease 4s forwards;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  }
