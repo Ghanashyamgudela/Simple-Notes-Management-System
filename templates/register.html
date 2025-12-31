@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Register | Simple Notes Management</title>
+  <link rel="stylesheet" href="../static/register.css">
+</head>
+
+<body>
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <main class="card">
+    <h1>Create an Account</h1>
+    <p class="lead">Sign up with your username, email, and password.</p>
+
+    <form id="registerForm" action="/register" method="POST" novalidate>
+      <div>
+        <label for="username">Username</label>
+        <div style="  border-radius: 11px; background-color: var(--input-bg);">
+        <input id="username" name="username" type="text" minlength="3" maxlength="30" required
+          pattern="^[A-Za-z0-9._-]{3,30}$" placeholder="Choose a username" />
+        <div id="usernameError" class="error"></div>
+      </div></div>
+
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@example.com" />
+        <div id="emailError" class="error"></div>
+      </div>
+
+      <div>
+        <label for="password">Password</label>
+        <div style="display:flex; align-items:center; gap:8px; border: 1px solid var(--border-color); border-radius: 11px; background-color: var(--input-bg);">
+          <input id="password" name="password" type="password" required minlength="8" placeholder="Create a password" />
+          <button type="button" id="togglePwd" class="toggle-btn">Show</button>
+        </div>
+        <div class="hint">At least 8 characters. Include upper, lower, number, and symbol.</div>
+        <div class="strength"><i id="strengthBar"></i></div>
+        <div id="passwordError" class="error"></div>
+      </div>
+
+      <div class="meta">
+        <small><a href="{{ url_for('login') }}">Already have an account?</a></small>
+        <small class="small">By signing up, you agree to our <a href="#">terms</a>.</small>
+      </div>
+
+      <button type="submit">Register</button>
+    </form>
+  </main>
+
+  <script>
+    const password = document.querySelector('#password');
+    const toggle = document.querySelector('#togglePwd');
+    const strengthBar = document.querySelector('#strengthBar');
+
+    function passwordScore(pw) {
+      let s = 0;
+      if (pw.length >= 8) s++;
+      if (/[A-Z]/.test(pw)) s++;
+      if (/[a-z]/.test(pw)) s++;
+      if (/\d/.test(pw)) s++;
+      if (/[^A-Za-z0-9]/.test(pw)) s++;
+      return s;
+    }
+
+    function updateStrength() {
+      const s = passwordScore(password.value);
+      strengthBar.style.width = (s / 5) * 100 + '%';
+    }
+
+    password.addEventListener('input', updateStrength);
+
+    toggle.addEventListener('click', () => {
+      const isPwd = password.type === 'password';
+      password.type = isPwd ? 'text' : 'password';
+      toggle.textContent = isPwd ? 'Hide' : 'Show';
+    });
+  </script>
+</body>
+
+</html>

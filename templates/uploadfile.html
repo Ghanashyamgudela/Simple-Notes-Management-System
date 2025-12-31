@@ -1,0 +1,110 @@
+{% extends "dashboard.html" %}
+
+{% block title %}Upload File{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+  integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{{url_for('static',filename='filedata.css')}}" />
+<style>
+  .file-upload-box {
+    display: inline-block;
+    width: 100%;
+    padding: 40px;
+    border: 2px dashed var(--border-color, #ccc);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    color: var(--muted, #666);
+    font-size: 16px;
+  }
+
+  i {
+    font-size: 1.2rem;
+  }
+
+  .selected-file {
+    margin-top: 8px;
+    color: var(--muted, #ccc);
+    font-size: 14px;
+  }
+</style>
+{% endblock %}
+
+<!-- FLASH MESSAGES -->
+
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-container">
+  {% for category, message in messages %}
+  <div class="flash-message {{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<div class="card upload-card">
+  <h1>Upload a File</h1>
+  <p>Select a file from your computer to upload.</p>
+
+  <form action="{{ url_for('uploadfile') }}" method="POST" enctype="multipart/form-data">
+    <label for="file-upload" class="file-upload-box">
+      <input type="file" name="file" id="file-upload" required>
+      <span>Click or drag a file to upload</span>
+    </label>
+ <div id="selected-file" style="
+    {% if file_exists %}
+        color: #842029;
+        background-color: #f8d7da;
+        border: 1px solid #f5c2c7;
+    {% elif uploaded_filename %}
+        color: #0f5132;
+        background-color: #d1e7dd;
+        border: 1px solid #badbcc;
+    {% else %}
+        color: #6c757d;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+    {% endif %}
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+">
+  {% if file_exists %}
+    File "{{ filename }}" already exists
+  {% elif uploaded_filename %}
+    Uploaded: {{ uploaded_filename }}
+  {% else %}
+    No file selected
+  {% endif %}
+</div>
+
+
+
+    <button type="submit" class="upload-btn"><i class="fa-solid fa-cloud-arrow-down"></i> Upload</button>
+  </form>
+</div>
+
+<script>
+  (function () {
+    const input = document.getElementById('file-upload');
+    const out = document.getElementById('selected-file');
+    if (!input || !out) return;
+    input.addEventListener('change', function () {
+      const f = this.files && this.files[0];
+      if (!f) { out.textContent = 'No file selected'; return; }
+      const sizeKb = (f.size / 1024).toFixed(1);
+      out.textContent = `${f.name} (${sizeKb} KB)`;
+    });
+  })();
+</script>
+
+
+
+
+{% endblock %}

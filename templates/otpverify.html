@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Enter OTP</title>
+  <link rel="stylesheet" href="../static/otpverify.css">
+</head>
+<body>
+   <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <main class="card" role="main">
+    <h1>Enter Verification Code</h1>
+    <p class="lead">Please enter the 6-character OTP sent to your email or phone.</p>
+
+    <form id="otpForm" method="POST" novalidate>
+      <div class="otp-fields">
+        <input type="text" maxlength="1" class="otp" name="otp1" required>
+        <input type="text" maxlength="1" class="otp" name="otp2" required>
+        <input type="text" maxlength="1" class="otp" name="otp3" required>
+        <input type="text" maxlength="1" class="otp" name="otp4" required>
+        <input type="text" maxlength="1" class="otp" name="otp5" required>
+        <input type="text" maxlength="1" class="otp" name="otp6" required>
+      </div>
+      <div id="otpError" class="error" aria-live="polite"></div>
+      <button type="submit">Verify OTP</button>
+    </form>
+  </main>
+
+  <script>
+    const inputs = document.querySelectorAll('.otp');
+    const otpError = document.querySelector('#otpError');
+    const form = document.querySelector('#otpForm');
+
+    // Handle OTP typing and navigation
+    inputs.forEach((input, i) => {
+      input.addEventListener('input', e => {
+        let val = e.target.value;
+        // Only allow A-Z, a-z, 0-9
+        val = val.replace(/[^A-Za-z0-9]/g, '');
+        if (val.length > 1) val = val.charAt(0);
+        e.target.value = val;
+        otpError.textContent = '';
+
+        // Auto move to next box if valid character entered
+        if (val && i < inputs.length - 1) inputs[i + 1].focus();
+      });
+
+      // Move back on backspace
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Backspace' && !input.value && i > 0) {
+          inputs[i - 1].focus();
+        }
+      });
+    });
+
+    // Form submit validation
+    form.addEventListener('submit', e => {
+      const otp = Array.from(inputs).map(i => i.value).join('');
+      if (otp.length < 6) {
+        e.preventDefault();
+        otpError.textContent = "Please enter all 6 characters.";
+        inputs[0].focus();
+        return;
+      }
+      // Optional: send OTP as single field if needed
+      console.log("Submitting OTP:", otp);
+
+      // Example if you want to send via AJAX:
+      // e.preventDefault();
+      // fetch('/verify-otp', {
+      //   method: 'POST',
+      //   headers: {'Content-Type': 'application/json'},
+      //   body: JSON.stringify({ otp })
+      // }).then(res => res.json()).then(console.log);
+    });
+  </script>
+</body>
+</html>

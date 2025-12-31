@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../static/addnotes.css">
+</head>
+
+<body>
+
+  <nav>
+    <button class="menu-btn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" class="profile-icon" />
+      <span class="username">{{ session.get('user') }}</span>
+    </div>
+
+    <div class="logo"><a href="{{url_for('dashboard')}}">My Dashboard</a></div>
+
+    <div class="nav-links">
+      <!-- NOTES DROPDOWN -->
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Notes ▾</button>
+        <div class="dropdown-content">
+          <a href="{{url_for('addnotes')}}">Add Notes</a>
+          <a href="{{url_for('viewallnotes')}}">View All Notes</a>
+          <a href="{{url_for('getexceldata')}}">Get Excel</a>
+
+        </div>
+      </div>
+
+      <!-- FILES DROPDOWN -->
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Files ▾</button>
+        <div class="dropdown-content">
+          <a href="/uploadfile">Upload File</a>
+          <a href="/viewallfiles">View All Files</a>
+        </div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-box">
+        <form action="{{url_for('search')}}" method="POST">
+          <input type="text" name="q" placeholder="Search..." />
+        </form>
+      </div>
+
+      <!-- LOGOUT -->
+      <a href="/userlogout"><button type="submit" class="logout-btn">Logout</button></a>
+    </div>
+  </nav>
+
+  <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="card">
+      <h1>Add a New Note</h1>
+      <p>Enter a title and description below to save your note.</p>
+      <form action="/addnotes" method="POST" class="note-form">
+        <input type="text" name="title" placeholder="Note Title" required>
+        <textarea name="description" placeholder="Note Description..." required></textarea>
+        <button type="submit" class="submit-btn">Save Note</button>
+      </form>
+    </div>
+  </main>
+  <script src="../static/dashboard.js"></script>
+</body>
+
+</html>

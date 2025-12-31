@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login</title>
+  <link rel="stylesheet" href="../static/login.css">
+</head>
+
+<body>
+  <div class="overlay">
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+      <div class="flash-message {{ category }}">
+        {{ message }}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <main class="card" role="main">
+      <h1>Sign in</h1>
+      <p class="lead">Access your account using your email and password.</p>
+      <form id="loginForm" action="/login" method="POST" novalidate>
+        <!-- EMAIL -->
+        <div>
+          <label for="email">Email address</label>
+          <div class="field">
+            <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="emailError"
+              placeholder="you@example.com" />
+          </div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div>
+          <label for="password">Password</label>
+          <div class="field">
+            <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8"
+              aria-describedby="passwordError" placeholder="Enter your password" />
+            <button type="button" id="togglePwd" class="toggle-btn" aria-pressed="false">Show</button>
+          </div>
+          <div id="passwordError" class="error" aria-live="polite"></div>
+        </div>
+
+        <div class="meta">
+          <small class="small"><a href="{{url_for('forgotpassword')}}"
+              style="color:var(--accent);text-decoration:none">Forgot password?</a></small>
+          <small class="small">No account? <a href="/register"
+              style="color:var(--accent);text-decoration:none">Register</a></small>
+        </div>
+
+        <button type="submit">Log in</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="../static/login.js"></script>
+</body>
+
+</html>

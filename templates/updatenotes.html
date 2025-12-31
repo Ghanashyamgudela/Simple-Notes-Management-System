@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Update Note</title>
+  <link rel="stylesheet" href="../static/updatenotes.css">
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <button class="menu-btn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" class="profile-icon">
+      {{session.get('user')}}
+    </div>
+    <div class="logo"><a href="{{url_for('dashboard')}}"> Dashboard</a></div>
+
+    <div class="nav-links">
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Notes ▾</button>
+        <div class="dropdown-content">
+          <a href="/addnotes">Add Notes</a>
+          <a href="{{url_for('viewallnotes')}}">View All Notes</a>
+          <a href="{{url_for('getexceldata')}}">Get Excel</a>
+        </div>
+      </div>
+
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Files ▾</button>
+        <div class="dropdown-content">
+          <a href="/uploadfile">Upload File</a>
+          <a href="/viewallfiles">View All Files</a>
+        </div>
+      </div>
+
+      <div class="search-box">
+      <form action="{{url_for('search')}}" method="POST">
+        <input type="text" name="q" placeholder="Search..." />
+      </form>
+    </div>
+    
+      <a href="/userlogout"><button type="submit" class="logout-btn">Logout</button></a>
+    </div>
+  </nav>
+
+   <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="card">
+      <h1>Update Note</h1>
+      <p>Edit your note details below and save the changes.</p>
+
+      <form id="updateForm" class="note-form">
+        <input type="text" id="title" name="title" value="{{notes_data[1]}}" required>
+        <textarea id="description" name="description" required>{{notes_data[2]}}</textarea>
+        <button type="submit" class="submit-btn">Update Note</button>
+      </form>
+
+      <div id="message"></div>
+    </div>
+  </main>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    document.getElementById("updateForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const messageBox = document.getElementById("message");
+
+      messageBox.textContent = "";
+      messageBox.className = "";
+
+      try {
+        const response = await fetch(`/update_notes/{{ notes_data[0] }}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, description })
+        });
+
+        if (response.ok) {
+          // show a flash-style success message
+          const text = "Note updated successfully!";
+          let container = document.querySelector('.flash-container');
+          if(!container){
+            container = document.createElement('div');
+            container.className = 'flash-container';
+            document.body.appendChild(container);
+          }
+          const fm = document.createElement('div');
+          fm.className = 'flash-message success';
+          fm.textContent = text;
+          container.appendChild(fm);
+          setTimeout(()=> fm.remove(), 4500);
+        } else {
+          const error = await response.text();
+          const text = "Error updating note: " + error;
+          let container = document.querySelector('.flash-container');
+          if(!container){
+            container = document.createElement('div');
+            container.className = 'flash-container';
+            document.body.appendChild(container);
+          }
+          const fm = document.createElement('div');
+          fm.className = 'flash-message error';
+          fm.textContent = text;
+          container.appendChild(fm);
+          setTimeout(()=> fm.remove(), 4500);
+        }
+      } catch (err) {
+        messageBox.textContent = "⚠️ Network error: " + err.message;
+        messageBox.className = "error";
+      }
+    });
+  </script>
+  <script src="../static/dashboard.js"></script>
+</body>
+</html>

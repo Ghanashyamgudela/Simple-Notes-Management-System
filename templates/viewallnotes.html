@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>View All Notes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../static/viewallnotes.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav>
+    <button class="menu-btn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="nav-left">
+      <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" class="profile-icon" />
+      <span class="username">{{ session.get('user') }}</span>
+    </div>
+
+    <div class="logo"><a href="{{url_for('dashboard')}}">My Dashboard</a></div>
+
+    <div class="nav-links">
+      <!-- NOTES DROPDOWN -->
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Notes ▾</button>
+        <div class="dropdown-content">
+          <a href="/addnotes">Add Notes</a>
+          <a href="/viewallnotes">View All Notes</a>
+          <a href="{{url_for('getexceldata')}}">Get Excel</a>
+        </div>
+      </div>
+
+      <!-- FILES DROPDOWN -->
+      <div class="dropdown">
+        <button type="button" class="dropdown-btn">Files ▾</button>
+        <div class="dropdown-content">
+          <a href="/uploadfile">Upload File</a>
+          <a href="/viewallfiles">View All Files</a>
+        </div>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="search-box">
+      <form action="{{url_for('search')}}" method="POST">
+        <input type="text" name="q" placeholder="Search..." />
+      </form>
+    </div>
+
+      <!-- LOGOUT -->
+      <a href="/userlogout"><button type="submit" class="logout-btn">Logout</button></a>
+    </div>
+  </nav>
+   <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="card">
+      <h1>Your Notes</h1>
+      <p>All your saved notes are listed below.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Date Created</th>
+            <th>View</th>
+            <th>Update</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for note in notes_data %}
+          <tr>
+            <td data-label="ID">{{ note[0] }}</td>
+            <td data-label="Title">{{ note[1] }}</td>
+            <td data-label="Date">{{ note[2] }}</td>
+            <td data-label="View"><a href="{{url_for('viewnotes',nid=note[0])}}"> <i class="fa-regular fa-eye"></i> View</a></td>
+            <td data-label="Update"><a href="{{url_for('update_notes',nid=note[0])}}"> <i class="fa-solid fa-pencil"></i> Update</a></td>
+            <td data-label="Delete"><a href="{{url_for('deletenotes',nid=note[0])}}"> <i class="fa-regular fa-trash-can"></i> Delete</a></td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="4" style="text-align:center;color:var(--muted);padding:20px;">
+              No notes found.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script src="../static/dashboard.js"></script>
+</body>
+</html>

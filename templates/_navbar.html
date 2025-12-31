@@ -1,0 +1,41 @@
+<nav>
+  <button class="menu-btn" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-left">
+    <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" class="profile-icon" />
+    <span class="username">{{ session.get('user') }}</span>
+  </div>
+
+  <div class="logo"><a href="{{ url_for('dashboard') }}">My Dashboard</a></div>
+
+  <div class="nav-links">
+    <div class="dropdown">
+      <button type="button" class="dropdown-btn">Notes ▾</button>
+      <div class="dropdown-content">
+        <a href="{{ url_for('addnotes') }}">Add Notes</a>
+        <a href="{{ url_for('viewallnotes') }}">View All Notes</a>
+        <a href="{{ url_for('getexceldata') }}">Get Excel</a>
+      </div>
+    </div>
+
+    <div class="dropdown">
+      <button type="button" class="dropdown-btn">Files ▾</button>
+      <div class="dropdown-content">
+        <a href="{{ url_for('uploadfile') }}">Upload File</a>
+        <a href="{{ url_for('viewallfiles') }}">View All Files</a>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <form action="{{ url_for('search') }}" method="POST">
+        <input type="text" name="q" placeholder="Search..." />
+      </form>
+    </div>
+
+    <a href="{{ url_for('userlogout') }}"><button type="button" class="logout-btn">Logout</button></a>
+  </div>
+</nav>

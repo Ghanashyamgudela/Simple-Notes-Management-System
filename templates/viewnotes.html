@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../static/addnotes.css">
+</head>
+<body>
+
+  <nav>
+    <button class="menu-btn" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  <div class="nav-left">
+    <img src="https://cdn-icons-png.flaticon.com/512/1144/1144760.png" alt="Profile" class="profile-icon" />
+    <span class="username">{{ session.get('user') }}</span>
+  </div>
+
+  <div class="logo"><a href="{{url_for('dashboard')}}"> My Dashboard </a></div>
+
+  <div class="nav-links">
+    <!-- NOTES DROPDOWN -->
+    <div class="dropdown">
+      <button type="button" class="dropdown-btn">Notes ▾</button>
+      <div class="dropdown-content">
+        <a href="/addnotes">Add Notes</a>
+        <a href="/viewallnotes">View All Notes</a>
+        <a href="{{url_for('getexceldata')}}">Get Excel</a>
+      </div>
+    </div>
+
+    <!-- FILES DROPDOWN -->
+    <div class="dropdown">
+      <button type="button" class="dropdown-btn">Files ▾</button>
+      <div class="dropdown-content">
+        <a href="/uploadfile">Upload File</a>
+        <a href="/view_allfiles">View All Files</a>
+      </div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="search-box">
+      <form action="{{url_for('search')}}" method="POST">
+        <input type="text" name="q" placeholder="Search..." />
+      </form>
+    </div>
+
+    <!-- LOGOUT -->
+    <form action="/logout" method="POST">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+  </div>
+</nav>
+
+ <!-- FLASH MESSAGES -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+    <div class="card">
+      <h1>View Note</h1>
+      <p>View the  title and description below of your saved note.</p>
+      <form class="note-form">
+        Created_at : {{notes_data[3]}}
+       
+  <textarea name="description" required>
+{{ "Title: " ~ notes_data[1] ~ "\n\nDescription: " ~ notes_data[2] }}
+</textarea>
+<button type="button" onclick="window.history.back();" class="submit-btn">Back</button>
+      </form>
+    </div>
+  </main>
+</body>
+  <script src="../static/dashboard.js"></script>
+</html>

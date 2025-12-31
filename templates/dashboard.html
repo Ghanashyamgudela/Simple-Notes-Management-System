@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title%}Dashboard {%endblock title%}</title>
+  <link rel="stylesheet" href="../static/dashboard.css">
+</head>
+
+<body>
+  {% include '_navbar.html' %}
+
+
+  <main>
+    {% block content%}
+    <div class="card">
+      <h1>Welcome to Your Dashboard</h1>
+      <p>Manage your notes, files, and account all in one place.</p>
+    </div>
+    {% endblock content%}
+  </main>
+  <script src="../static/dashboard.js"></script>
+</body>
+
+</html>
