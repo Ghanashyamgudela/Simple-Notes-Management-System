@@ -218,28 +218,49 @@ def update_notes(nid):
 def getexceldata():
     if session.get('user'):
         try:
-            cursor=mydb.cursor(buffered=True)
-            cursor.execute('select nid,title,description,created_at from notesdata where added_by=%s',[session.get('user')])
-            notes_data=cursor.fetchall()  #[(1,'python','2025-11-07'),(2,'python','2025-11-07')]]
+            cursor = mydb.cursor(buffered=True)
+            cursor.execute(
+                'select title, description, created_at from notesdata where added_by=%s',
+                [session.get('user')]
+            )
+            notes_data = cursor.fetchall()
             cursor.close()
         except Exception as e:
             print(e)
             flash('Could not fetch notes details')
             return redirect(url_for('viewallnotes'))
         else:
-            columns=['Notes_id','Title','Description','Created_at']
-            array_data=[list(i) for i in notes_data]
-            array_data.insert(0,columns)
-            # generate XLSX in-memory using openpyxl to avoid OS/tempfile issues
+            # 👇 Excel headers
+            columns = ['S.No', 'Title', 'Description', 'Created_at']
+
+            array_data = [columns]
+
+            # 👇 Generate S.No starting from 1
+            for index, note in enumerate(notes_data, start=1):
+                array_data.append([
+                    index,        # S.No
+                    note[0],      # Title
+                    note[1],      # Description
+                    note[2]       # Created_at
+                ])
+
             try:
                 wb = Workbook()
                 ws = wb.active
+
                 for row in array_data:
                     ws.append(row)
+
                 output = BytesIO()
                 wb.save(output)
                 output.seek(0)
-                return send_file(output, as_attachment=True, download_name="my_data.xlsx", mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+                return send_file(
+                    output,
+                    as_attachment=True,
+                    download_name="my_notes.xlsx",
+                    mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
             except Exception as e:
                 print(e)
                 flash('Could not generate excel file')
@@ -247,6 +268,7 @@ def getexceldata():
     else:
         flash('Please Login first')
         return redirect(url_for('login'))
+
     
 @app.route('/uploadfile', methods=['GET', 'POST'])
 def uploadfile():
